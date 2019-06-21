@@ -22,7 +22,29 @@ function appendChat(name, body) {
   $("#chats").append(chat);
 }
 
-function postChat(name, body) {}
+function postChat() {
+  const name = $("#name").val();
+  const body = $("#body").val();
+  $("#body").val("");
+  $.ajax({
+    url: "https://gachat-api.herokuapp.com/graphql",
+    contentType: "application/json",
+    type: "POST",
+    async: false,
+    data: JSON.stringify({
+      query: `mutation {createChat(body: "${body}", name: "${name}") {id} }`
+    })
+  }).responseJSON.data.id;
+  refresh();
+}
+
+function refresh() {
+  const chats = getChats();
+  $("#chats").empty();
+  chats.forEach(c => {
+    appendChat(c.name, c.body);
+  });
+}
 
 $(() => {
   $("#chats").text("読み込み中...");
@@ -31,4 +53,5 @@ $(() => {
   chats.forEach(c => {
     appendChat(c.name, c.body);
   });
+  $("#post").click(postChat);
 });

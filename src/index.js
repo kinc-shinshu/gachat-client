@@ -1,11 +1,34 @@
 import $ from "jquery";
 
-$(() => {
-	let div = $("<div>")
-		.attr({ id: "sample" })
-		.text("Sample Text");
-	$("body").append(div);
+function getChats() {
+  const results = $.ajax({
+    url: "https://gachat-api.herokuapp.com/graphql",
+    contentType: "application/json",
+    type: "POST",
+    async: false,
+    data: JSON.stringify({
+      query: `{allChats {name body}}`
+    })
+  }).responseJSON.data.allChats;
+  return results;
+}
 
-	let h = $("<h1>").text("Hello Webpack");
-	$("body").append(h);
+function appendChat(name, body) {
+  const chat = $("<div>");
+  const dispName = $("<p>").append($("<strong>").text(`${name} さん`));
+  chat.append(dispName);
+  chat.append($("<p>").text(body));
+  chat.append($("<hr>"));
+  $("#chats").append(chat);
+}
+
+function postChat(name, body) {}
+
+$(() => {
+  $("#chats").text("読み込み中...");
+  const chats = getChats();
+  $("#chats").empty();
+  chats.forEach(c => {
+    appendChat(c.name, c.body);
+  });
 });

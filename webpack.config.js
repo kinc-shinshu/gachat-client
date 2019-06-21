@@ -7,6 +7,8 @@ module.exports = {
     filename: 'index_bundle.js'
   },
   plugins: [
-    new HtmlWebpackPlugin()
+    new HtmlWebpackPlugin({
+      template: 'src/index.html'
+    })
   ]
 }

@@ -5,7 +5,7 @@
   "repository": "https://github.com/kinc-shinshu/gachat-client.git",
   "private": true,
   "dependencies": {
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "serve": "^11.0.2"
   },
   "scripts": {
